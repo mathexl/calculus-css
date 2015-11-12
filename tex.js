@@ -36,7 +36,15 @@ syntaxes = {
     integral: {
         re: /\\int\^\{(.*)\}_\{(.*)\} (.*)/,
         template: "<div integral><div upperbound>{}</div><div lowerbound>{}</div><div of>{}</div></div>"
-    }
+    },
+    summation: {
+        re: /\\sum\^\{(.*)\}_\{(.*)\} (.*)/,
+        template: "<div summation><div upperbound>{}</div><div lowerbound>{}</div><div of>{}</div></div>"
+    },
+    fraction: {
+        re: /\\frac\{(.*)\}\{(.*)\}/,
+        template: "<div fraction><div top>{}</div><div bottom>{}</div></div>"
+    },
 }
 
 function interpolate(str, args) {
@@ -48,7 +56,7 @@ function interpolate(str, args) {
 compile = function(str) {
     for (var key in syntaxes) {
         var match = str.match(syntaxes[key].re);
-        if (match.length > 0) {
+        if (match && match.length) {
             return interpolate(syntaxes[key].template, match.slice(1))
         }
     }
